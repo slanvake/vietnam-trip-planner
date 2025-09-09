@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เปรียบเทียบทริปเวียดนาม: โฮจิมินห์ vs ดานัง</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Earthy Explorer -->
+    <!-- Application Structure Plan: ผมได้ออกแบบแอปพลิเคชันนี้ในรูปแบบ Dashboard เปรียบเทียบสองฝั่ง (Side-by-Side) เพื่อให้ผู้ใช้เห็นความแตกต่างระหว่างโฮจิมินห์และดานังได้อย่างชัดเจนในทันที โครงสร้างนี้เหมาะที่สุดสำหรับการตัดสินใจเลือก โดยแบ่งเนื้อหาเป็นส่วนๆ ตามหัวข้อ เช่น งบประมาณ, สไตล์การเที่ยว, และช่วงเวลาที่เหมาะสม ผู้ใช้สามารถเลื่อนลงเพื่อสำรวจข้อมูลเชิงลึกในแต่ละด้านได้อย่างต่อเนื่อง โดยมีแผนภูมิงบประมาณแบบอินเทอร์แอคทีฟเป็นจุดเด่น เพื่อให้ผู้ใช้เข้าใจผลกระทบของค่าใช้จ่ายต่างๆ ได้ง่ายขึ้น -->
+    <!-- Visualization & Content Choices: 
+        1.  Report Info: Budget Breakdown -> Goal: Compare spending -> Viz: Interactive Stacked Bar Chart -> Interaction: Toggle "Ba Na Hills" cost to see budget impact -> Justification: แสดงสัดส่วนค่าใช้จ่ายและเปรียบเทียบยอดรวมได้ดีที่สุด การทำให้ผู้ใช้ปรับเปลี่ยนข้อมูลได้ช่วยให้เห็นภาพชัดเจน -> Library: Chart.js
+        2.  Report Info: Travel Seasons -> Goal: Show optimal travel times -> Viz: Horizontal Bar Chart -> Interaction: Hover tooltips -> Justification: แสดงช่วงเวลาของแต่ละฤดูได้เห็นภาพและเข้าใจง่ายกว่าตาราง -> Library: Chart.js
+        3.  Report Info: Vibe, Highlights, Pros/Cons -> Goal: Inform qualitative differences -> Viz: Card-based layout with icons -> Interaction: None -> Justification: จัดกลุ่มข้อมูลที่เกี่ยวข้องกันให้อ่านง่าย สบายตา และเป็นระเบียบ -> Library/Method: HTML/CSS with Tailwind
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #FDFBF5;
+            color: #4A4A4A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+        }
+        .nav-button.active {
+            background-color: #A47E3B;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+        .nav-button:not(.active) {
+            background-color: #FFFFFF;
+            color: #A47E3B;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#A47E3B] mb-2">เที่ยวไหนดี? โฮจิมินห์ vs ดานัง</h1>
+            <p class="text-lg md:text-xl text-gray-600">คู่มือเปรียบเทียบฉบับสมบูรณ์สำหรับทริปเวียดนามในงบ 15,000 บาท</p>
+        </header>
+
+        <main>
+            <!-- Section 1: At a Glance -->
+            <section id="overview" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#4A5568]">ภาพรวมและสไตล์การเที่ยว</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-[#BF9248]">
+                        <h3 class="text-2xl font-bold text-center mb-4">🏙️ โฮจิมินห์: เมืองใหญ่ไม่เคยหลับ</h3>
+                        <p class="text-center mb-4">บรรยากาศคึกคัก มีพลังงานตลอดเวลา เหมาะสำหรับคนที่รักชีวิตในเมืองใหญ่ ชอบประวัติศาสตร์สงคราม และเป็นสายคาเฟ่ตัวยง</p>
+                        <div class="text-left">
+                            <h4 class="font-semibold text-lg mb-2">เหมาะกับสาย:</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>ประวัติศาสตร์และพิพิธภัณฑ์</li>
+                                <li>คาเฟ่ฮอปปิ้ง (Cafe Hopping)</li>
+                                <li>ตะลุยกินสตรีทฟู้ด</li>
+                                <li>แสงสียามค่ำคืน</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-[#5A8F7B]">
+                        <h3 class="text-2xl font-bold text-center mb-4">🏖️ ดานัง: เมืองพักผ่อนครบรส</h3>
+                        <p class="text-center mb-4">บรรยากาศสบายๆ ผ่อนคลาย เป็นการผสมผสานที่ลงตัวระหว่างทะเล ภูเขา และเมืองมรดกโลกที่งดงามอย่างฮอยอัน</p>
+                        <div class="text-left">
+                           <h4 class="font-semibold text-lg mb-2">เหมาะกับสาย:</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>ธรรมชาติ (ทะเลและภูเขา)</li>
+                                <li>ถ่ายรูปและชมเมืองเก่า</li>
+                                <li>เที่ยวแบบสมดุล ไม่เร่งรีบ</li>
+                                <li>กิจกรรมหลากหลาย</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Budget Comparison -->
+            <section id="budget" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#4A5568]">เปรียบเทียบงบประมาณ (4 วัน 3 คืน)</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">แผนภูมินี้แสดงค่าใช้จ่ายโดยประมาณในงบ 15,000 บาท ลองกดปุ่มด้านล่างเพื่อดูว่างบของคุณจะเปลี่ยนแปลงอย่างไรหากรวมค่าตั๋วบานาฮิลล์ในทริปดานัง</p>
+                <div class="text-center mb-8">
+                    <label for="banaToggle" class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" id="banaToggle" class="sr-only peer">
+                        <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#5A8F7B]"></div>
+                        <span class="ml-3 text-lg font-medium text-gray-900">รวมค่าตั๋ว Ba Na Hills ในงบดานัง</span>
+                    </label>
+                </div>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl font-semibold text-center mb-2">โฮจิมินห์</h3>
+                        <div class="chart-container">
+                            <canvas id="hcmcBudgetChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-center mb-2">ดานัง</h3>
+                        <div class="chart-container">
+                            <canvas id="danangBudgetChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 3: Highlights -->
+            <section id="highlights" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#4A5568]">ไฮไลท์และสถานที่ห้ามพลาด</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <h4 class="font-bold text-lg">พิพิธภัณฑ์สงครามและอุโมงค์กู๋จี</h4>
+                            <p class="text-gray-600">เรียนรู้ประวัติศาสตร์สงครามเวียดนามแบบเจาะลึก</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <h4 class="font-bold text-lg">ไปรษณีย์กลางและโบสถ์นอร์ทเธอดาม</h4>
+                            <p class="text-gray-600">ชมสถาปัตยกรรมฝรั่งเศสยุคโคโลเนียลที่งดงาม</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <h4 class="font-bold text-lg">ตลาดเบนถั่น</h4>
+                            <p class="text-gray-600">แหล่งช้อปปิ้งของฝากและลิ้มลองอาหารท้องถิ่น</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                         <div class="bg-white rounded-lg shadow p-4">
+                            <h4 class="font-bold text-lg text-red-600">เมืองมรดกโลกฮอยอัน (ห้ามพลาด!)</h4>
+                            <p class="text-gray-600">เดินเล่นชมเมืองเก่าที่เต็มไปด้วยโคมไฟยามค่ำคืน</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <h4 class="font-bold text-lg">ชายหาดหมีเควและภูเขาหินอ่อน</h4>
+                            <p class="text-gray-600">พักผ่อนริมทะเลและปีนเขาชมวิวถ้ำอันสวยงาม</p>
+                        </div>
+                         <div class="bg-white rounded-lg shadow p-4">
+                            <h4 class="font-bold text-lg">สะพานมังกร</h4>
+                            <p class="text-gray-600">ชมการแสดงพ่นไฟและน้ำสุดตระการตาในคืนวันหยุด</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Best Time to Visit -->
+             <section id="timing" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#4A5568]">ช่วงเวลาเที่ยวที่ดีที่สุด (Shoulder Season)</h2>
+                <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">ช่วง Shoulder Season เป็นเวลาที่เหมาะที่สุดในการเที่ยว เพราะอากาศดี คนไม่เยอะ และค่าใช้จ่ายถูกกว่าช่วง High Season</p>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                     <div>
+                        <h3 class="text-xl font-semibold text-center mb-2">ปฏิทินเที่ยวโฮจิมินห์</h3>
+                        <div class="chart-container" style="height: 450px;">
+                            <canvas id="hcmcSeasonChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-center mb-2">ปฏิทินเที่ยวดานัง</h3>
+                        <div class="chart-container" style="height: 450px;">
+                            <canvas id="danangSeasonChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                 <div class="mt-8 text-center bg-amber-100 border-l-4 border-amber-500 text-amber-700 p-4 rounded-md">
+                    <p class="font-bold">💡 เคล็ดลับ: เดือนเมษายนเป็นช่วงเวลาที่ดีที่อากาศเหมาะสมกับการเที่ยวทั้งสองเมือง!</p>
+                </div>
+            </section>
+            
+            <!-- Section 5: Final Verdict -->
+            <section id="verdict" class="bg-white rounded-xl shadow-2xl p-8">
+                <h2 class="text-3xl font-bold text-center mb-6 text-[#4A5568]">ฟันธง: ทริปนี้เลือกที่ไหนดี?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                     <div>
+                        <h3 class="text-2xl font-semibold mb-3 text-[#BF9248]">เลือก "โฮจิมินห์" ถ้า...</h3>
+                        <p class="text-lg">คุณรักชีวิตในเมืองใหญ่ ชอบประวัติศาสตร์สงคราม ชอบความคึกคัก และการตะลุยกินสตรีทฟู้ดคือความสุขของคุณ</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold mb-3 text-[#5A8F7B]">เลือก "ดานัง" ถ้า...</h3>
+                        <p class="text-lg">คุณต้องการทริปที่สมดุล ได้พักผ่อนริมทะเล ชมธรรมชาติ และอยากใช้เวลาเดินเล่นในเมืองเก่ามรดกโลกฮอยอันที่เต็มไปด้วยเสน่ห์</p>
+                    </div>
+                </div>
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <h3 class="text-2xl font-bold text-center text-red-600 mb-4">⭐️ คำแนะนำสุดท้ายสำหรับมือใหม่ งบจำกัด</h3>
+                    <p class="text-xl text-center text-gray-800 leading-relaxed">
+                        **ดานัง (ควบฮอยอัน)** มอบประสบการณ์ที่หลากหลายและน่าประทับใจได้มากกว่า<br>
+                        <span class="text-lg text-gray-600">เพียงแค่วางแผนเที่ยวให้เต็มที่และอาจจะเก็บ **บานาฮิลล์** ไว้ทริปหน้าเพื่อคุมงบให้อยู่หมัด!</span>
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const budgetData = {
+        hcmc: {
+            labels: ['ตั๋วเครื่องบิน', 'ที่พัก', 'อาหาร', 'กิจกรรม'],
+            values: [4500, 2000, 3000, 800],
+            bgColor: 'rgba(191, 146, 72, 0.7)',
+            borderColor: 'rgba(191, 146, 72, 1)',
+        },
+        danang: {
+            labels: ['ตั๋วเครื่องบิน', 'ที่พัก', 'อาหาร', 'กิจกรรม'],
+            values: [5000, 2000, 3000, 1500],
+            bgColor: 'rgba(90, 143, 123, 0.7)',
+            borderColor: 'rgba(90, 143, 123, 1)',
+        },
+        danangWithBana: {
+            labels: ['ตั๋วเครื่องบิน', 'ที่พัก', 'อาหาร', 'กิจกรรม', 'บานาฮิลล์'],
+            values: [5000, 2000, 3000, 1500, 1800],
+            bgColor: ['rgba(90, 143, 123, 0.7)','rgba(90, 143, 123, 0.7)','rgba(90, 143, 123, 0.7)','rgba(90, 143, 123, 0.7)','rgba(220, 38, 38, 0.7)'],
+            borderColor: ['rgba(90, 143, 123, 1)','rgba(90, 143, 123, 1)','rgba(90, 143, 123, 1)','rgba(90, 143, 123, 1)','rgba(220, 38, 38, 1)'],
+        }
+    };
+
+    const seasonData = {
+        months: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+        hcmc: [1, 1, 1, 1, 3, 3, 3, 3, 3, 2, 2, 1],
+        danang: [3, 2, 2, 2, 1, 1, 1, 1, 2, 3, 3, 3],
+        seasonMap: {
+            1: { label: 'High Season', color: 'rgba(217, 119, 6, 0.7)' },
+            2: { label: 'Shoulder', color: 'rgba(90, 143, 123, 0.7)' },
+            3: { label: 'Low (Rainy)', color: 'rgba(59, 130, 246, 0.7)' }
+        }
+    };
+    
+    let danangChart;
+
+    const createBudgetChart = (ctx, data) => {
+        const total = data.values.reduce((a, b) => a + b, 0);
+        const isOverBudget = total > 15000;
+        
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'ค่าใช้จ่าย',
+                    data: data.values,
+                    backgroundColor: data.bgColor,
+                    borderColor: data.borderColor,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        stacked: true,
+                        title: { display: true, text: 'ค่าใช้จ่าย (บาท)' }
+                    },
+                    y: { stacked: true }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) { label += ': '; }
+                                if (context.parsed.x !== null) {
+                                    label += new Intl.NumberFormat('th-TH').format(context.parsed.x) + ' บาท';
+                                }
+                                return label;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: `ยอดรวม: ${new Intl.NumberFormat('th-TH').format(total)} บาท`,
+                        font: { size: 16, weight: 'bold' },
+                        color: isOverBudget ? '#DC2626' : '#1F2937'
+                    }
+                }
+            }
+        });
+    };
+
+    const createSeasonChart = (ctx, cityData) => {
+        const data = {
+            labels: seasonData.months,
+            datasets: [{
+                label: 'Season',
+                data: cityData,
+                backgroundColor: cityData.map(d => seasonData.seasonMap[d].color),
+            }]
+        };
+
+        return new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                 scales: {
+                    x: { display: false },
+                    y: { grid: { display: false } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const seasonCode = context.raw;
+                                return seasonData.seasonMap[seasonCode].label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    };
+    
+    const hcmcBudgetCtx = document.getElementById('hcmcBudgetChart').getContext('2d');
+    createBudgetChart(hcmcBudgetCtx, budgetData.hcmc);
+
+    const danangBudgetCtx = document.getElementById('danangBudgetChart').getContext('2d');
+    danangChart = createBudgetChart(danangBudgetCtx, budgetData.danang);
+    
+    document.getElementById('banaToggle').addEventListener('change', (event) => {
+        const isChecked = event.target.checked;
+        const newData = isChecked ? budgetData.danangWithBana : budgetData.danang;
+        
+        const total = newData.values.reduce((a, b) => a + b, 0);
+        const isOverBudget = total > 15000;
+
+        danangChart.data.labels = newData.labels;
+        danangChart.data.datasets[0].data = newData.values;
+        danangChart.data.datasets[0].backgroundColor = newData.bgColor;
+        danangChart.data.datasets[0].borderColor = newData.borderColor;
+        danangChart.options.plugins.title.text = `ยอดรวม: ${new Intl.NumberFormat('th-TH').format(total)} บาท`;
+        danangChart.options.plugins.title.color = isOverBudget ? '#DC2626' : '#1F2937';
+        danangChart.update();
+    });
+
+    const hcmcSeasonCtx = document.getElementById('hcmcSeasonChart').getContext('2d');
+    createSeasonChart(hcmcSeasonCtx, seasonData.hcmc);
+    
+    const danangSeasonCtx = document.getElementById('danangSeasonChart').getContext('2d');
+    createSeasonChart(danangSeasonCtx, seasonData.danang);
+
+    const legendContainer = document.createElement('div');
+    legendContainer.className = 'flex justify-center items-center space-x-4 mt-4';
+    Object.values(seasonData.seasonMap).forEach(season => {
+        legendContainer.innerHTML += `
+            <div class="flex items-center">
+                <div class="w-4 h-4 rounded-full mr-2" style="background-color: ${season.color}"></div>
+                <span>${season.label}</span>
+            </div>
+        `;
+    });
+    document.getElementById('timing').appendChild(legendContainer);
+
+});
+</script>
+
+</body>
+</html>
